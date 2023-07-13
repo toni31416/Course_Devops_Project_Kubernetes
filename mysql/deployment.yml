@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql-wordpress
+spec:
+  selector:
+    matchLabels:
+      app: mysql-wordpress
+      product: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql-wordpress
+        product: mysql
+    spec:
+      containers:
+      - image: mysql
+        name: mysql-container
+        env:
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql
+              key: password
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-nfs
+
+          
+          
+          
+          
