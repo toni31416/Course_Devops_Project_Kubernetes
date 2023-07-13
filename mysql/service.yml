@@ -8,5 +8,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 3306
-  selector:
-    app: mysql
+  selector:    
+    app: mysql-wordpress
+    product: mysql
+    
