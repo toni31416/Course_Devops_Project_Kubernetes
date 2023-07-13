@@ -32,6 +32,17 @@ spec:
         volumeMounts:
         - name: mysql-storage
           mountPath: /var/lib/mysql
+        readinessProbe:
+            exec:
+              command:
+                - "mysql"
+                - "-u"
+                - "root"
+                - "-p$MYSQL_ROOT_PASSWORD"
+                - "-e"
+                - "SELECT 1"
+            initialDelaySeconds: 10
+            periodSeconds: 10
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
